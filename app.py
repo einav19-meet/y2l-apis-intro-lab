@@ -1,7 +1,17 @@
+
 import json
 import requests
 from flask import Flask, render_template
 app = Flask(__name__)
+import requests 
+
+response = requests.get("https://dog.ceo/dog-api/documentation/")
+    
+parsed_content = json.loads(response.content)
+doggo = parsed_content["message"]
+{"status":"success","message":"https:\/\/images.dog.ceo\/breeds\/dhole\/n02115913_4275.jpg"}
+print(response.content)
+
 
 @app.route('/')
 def home():
@@ -20,7 +30,9 @@ def movies():
                     "image_url": "https://ksassets.timeincuk.net/wp/uploads/sites/55/2018/02/KXC1W2-920x584.jpg"
                     }
                     """
-    return render_template('movie.html', movie={})
+    parsed_json = json.loads(json_string)
+
+    return render_template('movie.html', title=parsed_json["title"], releaseDate=parsed_json["releaseDate"],image_url=parsed_json["image_url"])
 
 
 @app.route('/tvshows')
